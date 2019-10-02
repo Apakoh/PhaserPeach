@@ -1,0 +1,9 @@
+{
+  "name": "forge",
+  "version": "0.0.0",
+  "description": "Forge Project",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
