@@ -7,7 +7,7 @@
 <body>
 <script>
 
-  var windowWidth = window.innerWidth - window.innerWidth*0.015;
+  var windowWidth = window.innerWidth - window.innerWidth*0.017;
   var windowHeight = window.innerHeight - window.innerHeight*0.015;
 
   const config = {
@@ -43,6 +43,8 @@
   var player;
 
   const walk_speed = 10;
+  const jump_force = 5;
+  const gravity = 20;
 
   function update()
   {
@@ -53,6 +55,12 @@
     var keyd = this.input.keyboard.addKey('d');
     var keyRight = this.input.keyboard.addKey('RIGHT');
     var keySpace = this.input.keyboard.addKey('SPACE');
+
+    //Gravity
+    if(player.y < windowHeight - (20+(player.height*0.2)/2))
+    {
+      player.y += gravity;
+    }
 
     if(keyd.isDown && (player.x + (player.width*0.2)/2) < windowWidth)
     {
@@ -70,10 +78,17 @@
     {
       player.y += walk_speed;
     }
-    keyRight.on('down', function(event)
+    keySpace.on('down', function(event)
     {
-      console.log("coucou");
+      if((player.y - (player.height*0.2)/2) > 0)
+      {
+        for(i=0;i<jump_force;i++)
+        {
+          player.y -= 1;
+        }
+      }
     });
+
   }
 
 </script>
