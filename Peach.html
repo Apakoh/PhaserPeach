@@ -36,19 +36,21 @@
   {
     this.add.image(400, 300, 'clouds').setScale(1);
     //plane  = this.add.image(400, 300, 'planeSU57').setScale(1);
-    plaform = this.add.image(400, 300, 'Platforms').setScale(1);
+    platform = this.add.image(400, 300, 'Platforms').setScale(platform_scale);
     akali = this.add.image(400, 300, 'Akali').setScale(akali_scale);
-
 
     //Platforms
     //platform.y = windowHeight + platform.y/2;
+    onGroundPlatform = false;
   }
 
   var plane;
   var akali;
   var player;
   var platform;
+  var onGroundPlatform;
 
+  const platform_scale = 1;
   const akali_scale = 0.2;
   const player_scale = akali_scale;
   const walk_speed = 10;
@@ -66,7 +68,7 @@
     var keySpace = this.input.keyboard.addKey('SPACE');
 
     //Gravity
-    if(player.y < windowHeight - (gravity+(player.height*player_scale)/2))
+    if((player.y < windowHeight - (gravity+(player.height*player_scale)/2)) && (!onGroundPlatform))
     {
       player.y += gravity;
     }
@@ -87,17 +89,35 @@
     {
       player.y += walk_speed;
     }
+    if(checkHitbox(player,player_scale,platform,platform_scale))
+    {
+        console.log("coucou");
+        onGroundPlatform = true;
+    }
+    else
+    {
+      onGroundPlatform = false;
+    }
 
     if(keySpace.isDown && (player.y - (player.height*player_scale)/2) > 0)
     {
-      console.log(player.y + (player.height*player_scale)/2);
-      console.log(windowHeight);
+      //console.log(player.y + (player.height*player_scale)/2);
+      //console.log(windowHeight);
       for(i=0;i<jump_force;i++)
       {
         player.y -= 1;
       }
     }
+  }
 
+  function checkHitbox(sprite1,sprite1_scale,sprite2,sprite2_scale)
+  {
+    var result = false;
+    if(((sprite1.y < (sprite2.y + ((sprite2.height*sprite2_scale)/2))) && (sprite1.y > (sprite2.y - ((sprite2.height*sprite2_scale)/2)))) && ((sprite1.x < (sprite2.x + ((sprite2.width*sprite2_scale)/2))) && (sprite1.x > (sprite2.x - ((sprite2.height*sprite2_scale)/2)))))
+    {
+      result = true;
+    }
+    return result;
   }
 
 </script>
