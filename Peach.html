@@ -28,6 +28,7 @@
   {
     this.load.image('planeSU57', 'Assets/SU-57.png');
     this.load.image('clouds', 'Assets/Cloud-Background.jpg');
+    this.load.image('Platforms', 'Assets/Platforms.png');
     this.load.image('Akali', 'Assets/Akali.png');
   }
 
@@ -35,15 +36,23 @@
   {
     this.add.image(400, 300, 'clouds').setScale(1);
     //plane  = this.add.image(400, 300, 'planeSU57').setScale(1);
-    akali = this.add.image(400, 300, 'Akali').setScale(0.2);
+    plaform = this.add.image(400, 300, 'Platforms').setScale(1);
+    akali = this.add.image(400, 300, 'Akali').setScale(akali_scale);
+
+
+    //Platforms
+    //platform.y = windowHeight + platform.y/2;
   }
 
   var plane;
   var akali;
   var player;
+  var platform;
 
+  const akali_scale = 0.2;
+  const player_scale = akali_scale;
   const walk_speed = 10;
-  const jump_force = 5;
+  const jump_force = 40;
   const gravity = 20;
 
   function update()
@@ -57,37 +66,37 @@
     var keySpace = this.input.keyboard.addKey('SPACE');
 
     //Gravity
-    if(player.y < windowHeight - (20+(player.height*0.2)/2))
+    if(player.y < windowHeight - (gravity+(player.height*player_scale)/2))
     {
       player.y += gravity;
     }
 
-    if(keyd.isDown && (player.x + (player.width*0.2)/2) < windowWidth)
+    if(keyd.isDown && (player.x + (player.width*player_scale)/2) < windowWidth)
     {
       player.x += walk_speed;
     }
-    if(keyq.isDown && (player.x - (player.width*0.2)/2) > 0)
+    if(keyq.isDown && (player.x - (player.width*player_scale)/2) > 0)
     {
       player.x -= walk_speed;
     }
-    if(keyz.isDown && (player.y - (player.height*0.2)/2) > 0)
+    if(keyz.isDown && (player.y - (player.height*player_scale)/2) > 0)
     {
       player.y -= walk_speed;
     }
-    if(keys.isDown && (player.y + (player.height*0.2)/2) < windowHeight)
+    if(keys.isDown && (player.y + (player.height*player_scale)/2) < windowHeight)
     {
       player.y += walk_speed;
     }
-    keySpace.on('down', function(event)
+
+    if(keySpace.isDown && (player.y - (player.height*player_scale)/2) > 0)
     {
-      if((player.y - (player.height*0.2)/2) > 0)
+      console.log(player.y + (player.height*player_scale)/2);
+      console.log(windowHeight);
+      for(i=0;i<jump_force;i++)
       {
-        for(i=0;i<jump_force;i++)
-        {
-          player.y -= 1;
-        }
+        player.y -= 1;
       }
-    });
+    }
 
   }
 

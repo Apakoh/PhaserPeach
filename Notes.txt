@@ -23,3 +23,12 @@ Key map : A ~ Z
 
 
 https://rexrainbow.github.io/phaser3-rex-notes/docs/site/keyboardevents/
+
+
+/* Commandlines for installation of nodejs modules */
+
+	npm install express --save
+	npm install atpl
+	npm install body-parser --save
+
+/* ********************************************** */
