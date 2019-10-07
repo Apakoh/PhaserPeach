@@ -92,6 +92,11 @@
     if(checkHitbox(player,player_scale,platform,platform_scale))
     {
         console.log("coucou");
+        while(checkHitbox(player,player_scale,platform,platform_scale))
+        {
+          player.y -= 1;
+          console.log(player.y);
+        }
         onGroundPlatform = true;
     }
     else
@@ -113,7 +118,7 @@
   function checkHitbox(sprite1,sprite1_scale,sprite2,sprite2_scale)
   {
     var result = false;
-    if(((sprite1.y < (sprite2.y + ((sprite2.height*sprite2_scale)/2))) && (sprite1.y > (sprite2.y - ((sprite2.height*sprite2_scale)/2)))) && ((sprite1.x < (sprite2.x + ((sprite2.width*sprite2_scale)/2))) && (sprite1.x > (sprite2.x - ((sprite2.height*sprite2_scale)/2)))))
+    if((((sprite1.y + ((sprite1.height*sprite1_scale)/2)) < (sprite2.y + ((sprite2.height*sprite2_scale)/2))) && (sprite1.y > (sprite2.y - ((sprite2.height*sprite2_scale)/2)))) && ((sprite1.x < (sprite2.x + ((sprite2.width*sprite2_scale)/2))) && (sprite1.x > (sprite2.x - ((sprite2.height*sprite2_scale)/2)))))
     {
       result = true;
     }
