@@ -42,6 +42,7 @@
     //Platforms
     //platform.y = windowHeight + platform.y/2;
     onGroundPlatform = false;
+    isJumpingCount = jump_height;
   }
 
   var plane;
@@ -49,13 +50,15 @@
   var player;
   var platform;
   var onGroundPlatform;
+  var isJumpingCount;
 
   const platform_scale = 1;
   const akali_scale = 0.2;
   const player_scale = akali_scale;
-  const walk_speed = 10;
-  const jump_force = 40;
-  const gravity = 20;
+  const walk_speed = 30;
+  const jump_force = 12;
+  const jump_height = 240;
+  const gravity = 8;
 
   function update()
   {
@@ -68,7 +71,7 @@
     var keySpace = this.input.keyboard.addKey('SPACE');
 
     //Gravity
-    if((player.y < windowHeight - (gravity+(player.height*player_scale)/2)) && (!onGroundPlatform))
+    if(!isGrounded(player) && (!onGroundPlatform) && (isJumpingCount == jump_height))
     {
       player.y += gravity;
     }
@@ -83,19 +86,18 @@
     }
     if(keyz.isDown && (player.y - (player.height*player_scale)/2) > 0)
     {
-      player.y -= walk_speed;
+      //player.y -= walk_speed;
     }
     if(keys.isDown && (player.y + (player.height*player_scale)/2) < windowHeight)
     {
-      player.y += walk_speed;
+      //player.y += walk_speed;
     }
+
     if(checkHitbox(player,player_scale,platform,platform_scale))
     {
-        console.log("coucou");
         while(checkHitbox(player,player_scale,platform,platform_scale))
         {
           player.y -= 1;
-          console.log(player.y);
         }
         onGroundPlatform = true;
     }
@@ -104,25 +106,41 @@
       onGroundPlatform = false;
     }
 
-    if(keySpace.isDown && (player.y - (player.height*player_scale)/2) > 0)
+    if(keySpace.isDown && (player.y - (player.height*player_scale)/2) > 0 && (isGrounded(player) || onGroundPlatform))
     {
-      //console.log(player.y + (player.height*player_scale)/2);
-      //console.log(windowHeight);
-      for(i=0;i<jump_force;i++)
+      if(isJumpingCount == jump_height)
       {
-        player.y -= 1;
+        jump(jump_force);
       }
+    }
+    if(isJumpingCount != jump_height)
+    {
+      jump(jump_force);
     }
   }
 
   function checkHitbox(sprite1,sprite1_scale,sprite2,sprite2_scale)
   {
-    var result = false;
-    if((((sprite1.y + ((sprite1.height*sprite1_scale)/2)) < (sprite2.y + ((sprite2.height*sprite2_scale)/2))) && (sprite1.y > (sprite2.y - ((sprite2.height*sprite2_scale)/2)))) && ((sprite1.x < (sprite2.x + ((sprite2.width*sprite2_scale)/2))) && (sprite1.x > (sprite2.x - ((sprite2.height*sprite2_scale)/2)))))
+    return (((sprite1.y + ((sprite1.height*sprite1_scale)/2)) < (sprite2.y + ((sprite2.height*sprite2_scale)/2))) && (sprite1.y > (sprite2.y - ((sprite2.height*sprite2_scale)/2)))) && ((sprite1.x < (sprite2.x + ((sprite2.width*sprite2_scale)/2))) && (sprite1.x > (sprite2.x - ((sprite2.width*sprite2_scale)/2))));
+
+  }
+
+  function isGrounded(sprite)
+  {
+    return sprite.y >= windowHeight - (gravity+(player.height*player_scale)/2);
+  }
+
+  function jump(power)
+  {
+    if(isJumpingCount > 0)
     {
-      result = true;
+      player.y -= power;
+      isJumpingCount -= power;
     }
-    return result;
+    else
+    {
+      isJumpingCount = jump_height;
+    }
   }
 
 </script>
