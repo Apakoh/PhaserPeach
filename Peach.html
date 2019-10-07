@@ -4,11 +4,11 @@
   <title>Peach</title>
   <script src="http://cdn.jsdelivr.net/npm/phaser@3.19.0/dist/phaser.min.js"></script>
 </head>
-<body>
+<body style="padding:0;margin:0;overflow:hidden">
 <script>
 
-  var windowWidth = window.innerWidth - window.innerWidth*0.017;
-  var windowHeight = window.innerHeight - window.innerHeight*0.015;
+  var windowWidth = window.innerWidth ;
+  var windowHeight = window.innerHeight ;
 
   const config = {
     type: Phaser.AUTO,
@@ -57,7 +57,7 @@
   const player_scale = akali_scale;
   const walk_speed = 30;
   const jump_force = 12;
-  const jump_height = 240;
+  const jump_height = 500;
   const gravity = 8;
 
   function update()

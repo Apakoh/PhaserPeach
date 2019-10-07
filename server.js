@@ -22,7 +22,7 @@ async function run()
     server.get('/', function(req, res){
       res.render('Peach.html');
     });
-    server.get('/Peach.html', function(req, res){
+    server.get('/Peach', function(req, res){
       res.render('Peach.html');
     });
     server.listen(process.env.PORT || port, address, function() {
