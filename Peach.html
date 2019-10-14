@@ -112,10 +112,9 @@
 
     for (var platformTemp in platforms)
     {
-      console.log(platforms)
-      if(checkHitbox(player,player_scale,platformTemp,platform_scale))
+      if(checkHitbox(player,player_scale,platform,platform_scale))
       {
-          while(checkHitbox(player,player_scale,platformTemp,platform_scale))
+          while(checkHitbox(player,player_scale,platform,platform_scale))
           {
             player.y -= 1;
           }
@@ -172,6 +171,9 @@
   {
     return Math.floor(Math.random() * Math.floor(range+1));
   }
+
+  //Change texture
+  //player.setTexture('blabla');
 
 </script>
 </body>
