@@ -13,7 +13,7 @@ Key map : A ~ Z
           SPACE
           PAGE_UP, PAGE_DOWN
           END, HOME
-          LEFT, UP, RIGHT,DOWN
+          LEFT, UP, RIGHT, DOWN
           PRINT_SCREEN
           INSERT, DELETE
           ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE

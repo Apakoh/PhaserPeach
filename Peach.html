@@ -34,10 +34,11 @@
 
   function create()
   {
-    this.add.image(400, 300, 'clouds').setScale(1);
+    background = this.add.tileSprite(0, 0, windowWidth*2, windowHeight*2, 'clouds');
     //plane  = this.add.image(400, 300, 'planeSU57').setScale(1);
-    platform = this.add.image(400, 300, 'Platforms').setScale(platform_scale);
-    akali = this.add.image(400, 300, 'Akali').setScale(akali_scale);
+    platform = this.add.sprite(400, 300, 'Platforms').setScale(platform_scale);
+    platforms.push(platform);
+    akali = this.add.sprite(400, 300, 'Akali').setScale(akali_scale);
 
     //Platforms
     //platform.y = windowHeight + platform.y/2;
@@ -49,8 +50,11 @@
   var akali;
   var player;
   var platform;
+  var background;
   var onGroundPlatform;
   var isJumpingCount;
+
+  var platforms = [];
 
   const platform_scale = 1;
   const akali_scale = 0.2;
@@ -62,6 +66,11 @@
 
   function update()
   {
+
+    // Background Animation
+    background._tilePosition.x += 2;
+
+
     player = akali;
     var keyz = this.input.keyboard.addKey('z');
     var keys = this.input.keyboard.addKey('s');
@@ -87,23 +96,35 @@
     if(keyz.isDown && (player.y - (player.height*player_scale)/2) > 0)
     {
       //player.y -= walk_speed;
+      console.log(randomInteger(7));
     }
     if(keys.isDown && (player.y + (player.height*player_scale)/2) < windowHeight)
     {
       //player.y += walk_speed;
+
+      // Destroy platform
+      //destroy(platform);
+      //platforms.shift();
+
+      platform = this.add.sprite(700, 700, 'Platforms').setScale(platform_scale);
+      platforms.push(platform);
     }
 
-    if(checkHitbox(player,player_scale,platform,platform_scale))
+    for (var platformTemp in platforms)
     {
-        while(checkHitbox(player,player_scale,platform,platform_scale))
-        {
-          player.y -= 1;
-        }
-        onGroundPlatform = true;
-    }
-    else
-    {
-      onGroundPlatform = false;
+      console.log(platforms)
+      if(checkHitbox(player,player_scale,platformTemp,platform_scale))
+      {
+          while(checkHitbox(player,player_scale,platformTemp,platform_scale))
+          {
+            player.y -= 1;
+          }
+          onGroundPlatform = true;
+      }
+      else
+      {
+        onGroundPlatform = false;
+      }
     }
 
     if(keySpace.isDown && (player.y - (player.height*player_scale)/2) > 0 && (isGrounded(player) || onGroundPlatform))
@@ -122,7 +143,6 @@
   function checkHitbox(sprite1,sprite1_scale,sprite2,sprite2_scale)
   {
     return (((sprite1.y + ((sprite1.height*sprite1_scale)/2)) < (sprite2.y + ((sprite2.height*sprite2_scale)/2))) && (sprite1.y > (sprite2.y - ((sprite2.height*sprite2_scale)/2)))) && ((sprite1.x < (sprite2.x + ((sprite2.width*sprite2_scale)/2))) && (sprite1.x > (sprite2.x - ((sprite2.width*sprite2_scale)/2))));
-
   }
 
   function isGrounded(sprite)
@@ -141,6 +161,16 @@
     {
       isJumpingCount = jump_height;
     }
+  }
+
+  function destroy(sprite)
+  {
+    sprite.destroy();
+  }
+
+  function randomInteger(range)
+  {
+    return Math.floor(Math.random() * Math.floor(range+1));
   }
 
 </script>
